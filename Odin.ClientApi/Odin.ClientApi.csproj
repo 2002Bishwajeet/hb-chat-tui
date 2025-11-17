@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <PropertyGroup>
+        <NoWarn>CS1591</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>  
+
+    <ItemGroup>
+      <PackageReference Include="BouncyCastle.NetCore" Version="2.2.1" />
+      <PackageReference Include="HttpClientFactoryLite" Version="0.4.0" />
+      <PackageReference Include="MessagePack" Version="3.1.3" />
+      <PackageReference Include="NodaTime" Version="3.2.1" />
+      <PackageReference Include="Refit" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Odin.Core">
+        <HintPath>..\Odin.Api.Dependencies\Assemblies\Odin.Core.dll</HintPath>
+      </Reference>
+      <Reference Include="Odin.Core.Cryptography">
+        <HintPath>..\Odin.Api.Dependencies\Assemblies\Odin.Core.Cryptography.dll</HintPath>
+      </Reference>
+      <Reference Include="Odin.Core.Storage">
+        <HintPath>Assemblies\Odin.Core.Storage.dll</HintPath>
+      </Reference>
+      <Reference Include="Odin.Hosting">
+        <HintPath>Assemblies\Odin.Hosting.dll</HintPath>
+      </Reference>
+      <Reference Include="Odin.Services">
+        <HintPath>Assemblies\Odin.Services.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

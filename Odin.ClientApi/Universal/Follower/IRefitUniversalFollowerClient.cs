@@ -1,0 +1,32 @@
+﻿using Odin.Core;
+using Odin.Services.DataSubscription.Follower;
+using Refit;
+
+namespace Odin.ClientApi.Universal.Follower
+{
+    public interface IRefitUniversalFollowerClient
+    {
+        private const string RootPath = "/followers";
+
+        [Get(RootPath + "/IdentitiesIFollow")]
+        Task<ApiResponse<CursoredResult<string>>> GetIdentitiesIFollow(string cursor);
+
+        [Get(RootPath + "/followingme")]
+        Task<ApiResponse<CursoredResult<string>>> GetIdentitiesFollowingMe(string cursor);
+
+        [Get(RootPath + "/follower")]
+        Task<ApiResponse<FollowerDefinition>> GetFollower(string odinId);
+
+        [Get(RootPath + "/IdentityIFollow")]
+        Task<ApiResponse<FollowerDefinition>> GetIdentityIFollow(string odinId);
+
+        [Post(RootPath + "/follow")]
+        Task<ApiResponse<HttpContent>> Follow([Body] FollowRequest request);
+
+        [Post(RootPath + "/unfollow")]
+        Task<ApiResponse<HttpContent>> Unfollow([Body] UnfollowRequest request);
+        
+        [Post(RootPath + "/sync-feed-history")]
+        Task<ApiResponse<HttpContent>> SynchronizeFeedHistory([Body] SynchronizeFeedHistoryRequest request);
+    }
+}

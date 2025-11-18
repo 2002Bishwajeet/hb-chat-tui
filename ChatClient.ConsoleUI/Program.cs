@@ -1,3 +1,4 @@
+using ChatClient.ConsoleUI.Views;
 using ChatClient.Core.Services;
 using ChatClient.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,7 +8,7 @@ namespace ChatClient.ConsoleUI;
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         var services = new ServiceCollection();
 
@@ -23,21 +24,37 @@ class Program
         Application.Init();
         var top = Application.Top;
 
-        if (top != null)
+        var authService = serviceProvider.GetRequiredService<IAuthService>();
+        if (await authService.IsAuthenticatedAsync())
         {
-            // Create the main window
-            var win = new Window()
+            ShowMainWindow(top);
+        }
+        else
+        {
+            var loginView = new LoginView(authService);
+            loginView.LoginSuccessful += () =>
             {
-                Title = "Chat Client",
-                X = 0,
-                Y = 1,
-                Width = Dim.Fill(),
-                Height = Dim.Fill()
+                top.Remove(loginView);
+                ShowMainWindow(top);
             };
-
-            top.Add(win);
+            top.Add(loginView);
         }
 
         Application.Run();
+    }
+
+    private static void ShowMainWindow(Toplevel top)
+    {
+        // Create the main window
+        var win = new Window()
+        {
+            Title = "Chat Client",
+            X = 0,
+            Y = 1,
+            Width = Dim.Fill(),
+            Height = Dim.Fill()
+        };
+
+        top.Add(win);
     }
 }

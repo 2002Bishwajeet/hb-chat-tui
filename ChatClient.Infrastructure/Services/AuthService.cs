@@ -11,13 +11,16 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using Odin.ClientApi;
+using Odin.ClientApi.App;
 using Odin.ClientApi.App.Auth;
 using Odin.ClientApi.App.Auth.YouAuth;
+using Odin.Core;
 using Odin.Core.Cryptography.Crypto;
 using Odin.Core.Cryptography.Data;
 using Odin.Core.Identity;
 using Odin.Core.Serialization;
 using Odin.Services.Authentication.YouAuth;
+using Odin.Services.Authorization.ExchangeGrants;
 using Odin.Services.Drives;
 using Refit;
 
@@ -93,11 +96,10 @@ public class AuthService : IAuthService
 
         var drives = new List<DriveParam>
         {
-            new() { Alias = "9ff813aff2d61e2f9b9db189e72d1a11", Type = "66ea8355ae4155c39b5a719166b510e3", Name = "Chat Drive", Description = "", DrivePermission = (int)(DrivePermission.Read | DrivePermission.Write | DrivePermission.React) },
-            // TODO: Replace these placeholder values with the correct GUIDs from the Odin.Core library.
-            new() { Alias = "StandardProfile", Type = "StandardProfile", Name = "", Description = "", DrivePermission = (int)DrivePermission.Read },
-            new() { Alias = "Contact", Type = "Contact", Name = "", Description = "", DrivePermission = (int)(DrivePermission.Read | DrivePermission.Write) },
-            new() { Alias = "3e5de26f-8fa3-43c1-975a-d0dd2aa8564c", Type = "93a6e08d-14d9-479e-8d99-bae4e5348a16", Name = "Community Drive", Description = "", DrivePermission = (int)(DrivePermission.Read | DrivePermission.Write) }
+            new() { DriveAlias = "9ff813aff2d61e2f9b9db189e72d1a11", DriveType = "66ea8355ae4155c39b5a719166b510e3", Name = "Chat Drive", Description = "", DrivePermission = (int)(DrivePermission.Read | DrivePermission.Write | DrivePermission.React) },
+            new() { DriveAlias = "8f12d8c4933813d378488d91ed23b64c", DriveType = "597241530e3ef24b28b9a75ec3a5c45c", Name = "", Description = "", DrivePermission = (int)DrivePermission.Read },
+            new() { DriveAlias = "2612429d1c3f037282b8d42fb2cc0499", DriveType = "70e92f0f94d05f5c7dcd36466094f3a5", Name = "", Description = "", DrivePermission = (int)(DrivePermission.Read | DrivePermission.Write) },
+            new() { DriveAlias = "3e5de26f-8fa3-43c1-975a-d0dd2aa8564c", DriveType = "93a6e08d-14d9-479e-8d99-bae4e5348a16", Name = "Community Drive", Description = "", DrivePermission = (int)(DrivePermission.Read | DrivePermission.Write) }
         };
 
         var permissions = new List<string>
@@ -113,7 +115,17 @@ public class AuthService : IAuthService
 
         var circleDrives = new List<DriveParam>
         {
-            new() { Alias = "9ff813aff2d61e2f9b9db189e72d1a11", Type = "66ea8355ae4155c39b5a719166b510e3", Name = "Chat Drive", Description = "", DrivePermission = (int)(DrivePermission.Write | DrivePermission.React) }
+            new()
+            {
+
+                DriveAlias = "9ff813aff2d61e2f9b9db189e72d1a11",
+                DriveType = "66ea8355ae4155c39b5a719166b510e3",
+                Name = "Chat Drive",
+                Description = "",
+                DrivePermission = (int)(DrivePermission.Write | DrivePermission.React),
+                AllowAnonymousReads = null,
+                AllowSubscriptions = null
+            }
         };
 
         var appParameters = new AppAuthorizationParams
